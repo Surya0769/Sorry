@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I’m Sorry Shivani</title>
+
+<!-- Romantic Handwritten Font -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;padding:0;box-sizing:border-box;
+    user-select:none;
+}
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+    overflow:hidden;
+}
+
+.card{
+    background:rgba(255,255,255,0.95);
+    width:90%;
+    max-width:420px;
+    padding:30px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(0,0,0,0.25);
+    animation:fade 1.2s ease;
+}
+
+/* HEADING FONT APPLIED HERE */
+h1{
+    font-family:'Dancing Script', cursive;
+    font-size:34px;
+    color:#e63946;
+    margin-bottom:10px;
+    animation:glow 2s infinite;
+}
+
+@keyframes glow{
+    0%{text-shadow:0 0 5px #ff5c8a;}
+    50%{text-shadow:0 0 20px #ff0055;}
+    100%{text-shadow:0 0 5px #ff5c8a;}
+}
+
+.shake{
+    animation:shake 0.4s infinite;
+}
+@keyframes shake{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-2px);}
+    50%{transform:translateX(2px);}
+    75%{transform:translateX(-2px);}
+    100%{transform:translateX(0);}
+}
+
+p{
+    color:#444;
+    font-size:16px;
+    line-height:1.8;
+    min-height:110px;
+}
+
+button{
+    margin-top:15px;
+    padding:12px 28px;
+    border:none;
+    border-radius:30px;
+    background:#e63946;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+button:hover{background:#d62828;}
+
+img{
+    width:100%;
+    border-radius:20px;
+    margin-top:15px;
+}
+
+.heart{
+    position:fixed;
+    bottom:-20px;
+    color:red;
+    animation:float 6s linear infinite;
+}
+@keyframes float{
+    0%{transform:translateY(0);opacity:1;}
+    100%{transform:translateY(-100vh);opacity:0;}
+}
+@keyframes fade{
+    from{opacity:0;transform:scale(0.9);}
+    to{opacity:1;transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="box">
+    <h1>Enter Password 🔒</h1>
+    <p>This page is only for Shivani</p>
+    <input type="password" id="pass" placeholder="Enter password"
+    style="padding:10px;border-radius:20px;border:1px solid #ccc;">
+    <br>
+    <button onclick="check()">Open</button>
+</div>
+
+<script>
+// Disable right-click & inspect
+document.addEventListener("contextmenu",e=>e.preventDefault());
+document.addEventListener("keydown",e=>{
+    if(e.key==="F12" || (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key))){
+        e.preventDefault();
+    }
+});
+
+// floating hearts
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(Math.random()*20+10)+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},300);
+
+// password
+function check(){
+    if(document.getElementById("pass").value==="shivani"){
+        start();
+    }else{
+        alert("Wrong password 💔");
+    }
+}
+
+const pages=[
+"Hey Shivani… I know I hurt you, and that thought has been hurting me every single moment. I never wanted to be the reason behind your silence or your sadness. The moment I realized my mistake, my heart felt heavy with regret because hurting you was the last thing I ever wanted to do.",
+
+"You are not just someone special to me, you are someone who matters deeply to my heart. Your smile brings peace to my chaos, your laughter feels like home, and your presence makes everything better. Losing your happiness because of me is something I can never forgive myself for.",
+
+"I want you to know that this apology is coming straight from my heart. I promise to learn from my mistakes, to listen more, to understand you better, and to never repeat what caused you pain. I want to become someone who protects your heart, not hurts it.",
+
+"Shivani… I am truly, deeply, honestly sorry. If I could take away your pain and place it on my own heart, I would do it without thinking twice. Please forgive me, not because I deserve it, but because my heart truly belongs to you 🙏"
+];
+
+let step=0, musicStarted=false;
+
+function start(){
+    document.getElementById("box").innerHTML=`
+    <h1>Hey Shivani…</h1>
+    <p id="text"></p>
+    <button onclick="next()">Next</button>`;
+    typeText(pages[0]);
+}
+
+function typeText(text){
+    let i=0;
+    let t=document.getElementById("text");
+    t.innerHTML="";
+    let interval=setInterval(()=>{
+        if(i<text.length){
+            t.innerHTML+=text.charAt(i);
+            i++;
+        }else clearInterval(interval);
+    },35);
+}
+
+function next(){
+    if(!musicStarted){
+        document.getElementById("music").play();
+        musicStarted=true;
+    }
+    step++;
+    if(step < pages.length){
+        typeText(pages[step]);
+    }else{
+        photoPage();
+    }
+}
+
+function photoPage(){
+    document.getElementById("box").innerHTML=`
+    <h1>Your Smile 🌸</h1>
+    <p>This smile is the most beautiful thing to me, and I never want to be the reason it fades.</p>
+    <img src="shivani.jpg">
+    <button onclick="forgive()">Next</button>
+    `;
+}
+
+function forgive(){
+    document.getElementById("box").innerHTML=`
+    <h1 class="shake">I’m Sorry 💔</h1>
+    <p>Please forgive me. I promise to value your heart more than anything.</p>
+    <button onclick="final()">Yes ❤️</button>
+    `;
+}
+
+function final(){
+    document.getElementById("box").innerHTML=`
+    <h1>Thank You ❤️</h1>
+    <p>Your forgiveness means more to me than words can ever explain.</p>
+    `;
+}
+</script>
+
+</body>
+</html>
